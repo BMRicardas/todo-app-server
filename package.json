@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./build/server.js",
   "scripts": {
+    "start": "node build/server.js",
     "start:server": "node build/server.js",
     "start:dev": "nodemon build/app.js",
     "build": "tsc -w",

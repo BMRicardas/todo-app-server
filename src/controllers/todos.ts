@@ -42,7 +42,7 @@ export async function createTodo(
 
   try {
     await todo.save();
-    res.status(201).json({ message: "Todo created successfully" });
+    res.status(201).json({ message: "Todo created successfully", todo });
   } catch (error) {
     console.error(error);
   }
@@ -57,11 +57,16 @@ export async function updateTodo(
   const { text, status } = req.body;
 
   try {
-    await Todo.findByIdAndUpdate(id, {
-      text,
-      status,
-    });
-    res.status(200).json({ message: "Todo updated successfully" });
+    const todo = await Todo.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          text,
+          status,
+        },
+      }
+    );
+    res.status(200).json({ message: "Todo updated successfully", todo });
   } catch (error) {
     console.error(error);
   }
@@ -75,7 +80,7 @@ export async function deleteTodo(
   const { id } = req.params;
 
   try {
-    await Todo.findByIdAndDelete(id);
+    await Todo.findByIdAndDelete({ _id: id });
     res.status(200).json({ message: "Todo deleted successfully" });
   } catch (error) {
     console.error(error);

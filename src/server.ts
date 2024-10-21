@@ -3,6 +3,7 @@ import { connect } from "mongoose";
 
 import { config } from "./config/env.config";
 import todoRoutes from "./routes/todos";
+import cors from "cors";
 import helmet from "helmet";
 
 const { port, host } = config.server;
@@ -10,17 +11,10 @@ const { connectionString } = config.database;
 
 const app = express();
 
+app.use(cors());
+
 app.use(helmet());
 app.use(json());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 
 app.use(todoRoutes);
 
